@@ -2,7 +2,7 @@
 
 const container = document.getElementById('container');
 
-let myWs = new WebSocket('wss:https://mars-chat-server.herokuapp.com:3000');
+let myWs = new WebSocket('wss:https://mars-chat-server.herokuapp.com:13842');
 myWs.onopen = function () {
   console.log('подключился');
 };
