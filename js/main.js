@@ -73,7 +73,7 @@ function connectionStart() {
 
 function getOnConnectResponse(data) {
   let {clientSendTime, serverSendTime} = data;
-  console.log(`--PingPong[client -> server : ${serverSendTime - clientSendTime}ms; server -> client: ${Date.now() - serverSendTime}ms]--`);
+  console.log(`--PingPong[client -> server -> client: ${Date.now() - clientSendTime}ms]--`);
 }
 
 function getRegistrationResponse(data) {
