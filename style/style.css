@@ -6,35 +6,45 @@ body {
     margin: 0;
     padding: 0;
     font-family: Roboto-Regular, Arial, sans-serif;
-    text-align: center;
     color: #ffffff;
     background-color: #000000;
-
     /**/
     -webkit-touch-callout: none; /* iOS Safari */
     -webkit-user-select: none;   /* Chrome/Safari/Opera */
     -khtml-user-select: none;    /* Konqueror */
     -moz-user-select: none;      /* Firefox */
     -ms-user-select: none;       /* Internet Explorer/Edge */
-    user-select: none;           /* Non-prefixed version, currently
-                                not supported by any browser */
+    user-select: none;           
 }
 
-#shell {
+.full-screen {
     position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+.flex-wrapper {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     align-content: center;
-    width: 100%;
-    height: 100%;
+    z-index: 1;
+}
+
+#backGround {
     background-color: #000000;
     background-image: url(../src/images/bg.jpg);
     background-repeat: no-repeat;
     background-position: center center;
     background-size: cover;
-    opacity: 0;
-    transition: opacity 2.4s ease-in-out;
+    animation: 6s ease-in-out start-show-bg;
+    opacity: .5;
+}
+@keyframes start-show-bg {
+    0% { opacity: 0; }
+    20%{ opacity: 1; }
+    80% { opacity: 1; }
+    100%{ opacity: .3; } 
 }
 
 #logo {
@@ -42,8 +52,8 @@ body {
     top: -15%;
     max-width: 480px;
     width: 80%;
+    animation: 4.8s ease-in-out 1.2s start-show-logo;
     opacity: 0;
-    transition: opacity 2.4s ease-in-out;
 }
 #logo img {
     width: 100%;
@@ -52,9 +62,8 @@ body {
 #logo::after {
     content: "";
     position: absolute;
-    display: block;
     bottom: 0;
-    right: 0;
+    right: -5%;
     width: 60%;
     height: 100%;
     background-image: url(../src/images/chat-logo-text.png);
@@ -62,22 +71,15 @@ body {
     background-position: bottom 0 left 0;
     background-size: 100%;
 }
+@keyframes start-show-logo {
+    0% { opacity: 0;}
+    25%{ opacity: 1; }
+    75%{ opacity: 1; }  
+    100%{ opacity: 0; } 
+}
 
 #connection {
-    position: absolute;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-content: center;
-    width: 100%;
-    height: 100%;
-    background-color: #0000005e;
-    opacity: 0;
-    transition: opacity 1.2s ease-in-out;
-}
-#connection div {
     position: relative;
-    bottom: -25%;
     text-align: right;
     font-size: 30px;
     padding: 10px 30px 0 0;
@@ -86,8 +88,9 @@ body {
     height: 50px;
     border-radius: 30px;
     background-color: #000000;
+    display: none;
 }
-#connection div::after {
+#connection::after {
     content: "";
     position: absolute;
     top: 0;
@@ -102,19 +105,34 @@ body {
 }
 
 #container {
-    opacity: 0;
-    transition: opacity 1.2s ease-in-out;
-    z-index: 1;
+    display: none;
+    width: 80%;
+    max-width: 1320px;
 }
 
-#inputMessage {
-    display: none;
+#avatarsTitle {
+    text-align: center;
+    font-size: 24px;
+    padding: 10px 0 5px;
+    text-shadow: 1px 3px 3px black;
+}
+#avatars {
+    text-align: center;
+}
+#avatars img {
+    width: 20%;
+    max-width: 120px;
+    margin: 4px;
+    box-sizing: border-box;
+    border: solid 2px #c7c7c7;
+    border-radius: 20%;
+    background-color: #000000;
 }
 
-.messageContainer {
-    display: none;
+#avatars .disable {
+    filter: grayscale(1) brightness(.3);
 }
 
-#inputNickName {
-    display: none;
+#avatars .choose {
+    border: solid 4px #00ff15;
 }

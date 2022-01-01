@@ -2,13 +2,11 @@
 
 // CONNECTION
 
-const socketURL = 'wss://mars-chat-server.herokuapp.com'; // 'ws://localhost:9000'
+const socketURL = 'ws://localhost:9000' // 'wss://mars-chat-server.herokuapp.com
 const connectionTimeout = 6000;
 
 let connectionIs = false;
 let registrationIs = false;
-
-setTimeout(connection, 6000);
 
 function connection() {
   console.log('--connection request--');
@@ -18,14 +16,17 @@ function connection() {
   socket.onopen = function () {
     console.log('socket on open');
     connectionIs = true;
-    connectionShow(connectionIs)
-    connectionStart();
+    connectionShow(connectionIs);
+
+    socket.send(JSON.stringify({ action: 'firstConnect' }));
+  
     setTimeout(connectionTest, connectionTimeout);
   };
   
   socket.onmessage = function (message) {
     let { action, data } = JSON.parse(message.data);
     switch (action) {
+      case 'firstConnect' : getConnectionStart(data); break;
       case 'registration' : getRegistrationResponse(data); break;
       case 'onConnect' : getOnConnectResponse(data); break;
       case 'newUser' : getNewUserResponse(data); break;
@@ -67,13 +68,18 @@ function connection() {
 
 }
 
-function connectionStart() {
-  console.log('--connection start--');
+function getConnectionStart(usedAvatarsArr) {
+  console.group('--connection start--');
+  console.log('used avatars array:');
+  console.log(usedAvatarsArr);
+  console.groupEnd();
+
+  registration(usedAvatarsArr);
 }
 
 function getOnConnectResponse(data) {
   let {clientSendTime, serverSendTime} = data;
-  console.log(`--PingPong[client -> server -> client: ${Date.now() - clientSendTime}ms]--`);
+  console.log(`--PingPong[client -> server : ${serverSendTime - clientSendTime}ms; server -> client: ${Date.now() - serverSendTime}ms]--`);
 }
 
 function getRegistrationResponse(data) {
@@ -98,60 +104,81 @@ function getWrongActionInResponse(action, data) {
 
 // INTERFACE
 
-const shellDiv = document.getElementById('shell');
-const logoDiv = document.getElementById('logo');
 const connectionDiv = document.getElementById('connection');
 const containerDiv = document.getElementById('container');
 
 let userNickName = '';
-let avatarsArr = [
-  'src/avatars/antman.png',
-  'src/avatars/captan.png',
-  'src/avatars/draks.png',
-  'src/avatars/falcon.png',
-  'src/avatars/gamora.png',
-  'src/avatars/groot.png',
-  'src/avatars/halk.png',
-  'src/avatars/ironman.png',
-  'src/avatars/mantis.png',
-  'src/avatars/marvel.png',
-  'src/avatars/mech.png',
-  'src/avatars/mercury.png',
-  'src/avatars/nebula.png',
-  'src/avatars/panther.png',
-  'src/avatars/piter.png',
-  'src/avatars/rocket.png',
-  'src/avatars/romanov.png',
-  'src/avatars/spiderman.png',
-  'src/avatars/strange.png',
-  'src/avatars/tanas.png',
-  'src/avatars/thor.png',
-  'src/avatars/vision.png',
-  'src/avatars/wanda.png',
-  'src/avatars/yondu.png'
+let avatarImgPath = 'src/avatars/';
+let avatarImgType = '.png';
+let avatarsArr = ['antman', 'captan', 'dragonfly', 'draks', 'falcon', 'hawkeye', 'gamora', 'groot', 'halk',
+  'ironman', 'loki', 'mantis', 'marvel', 'mech', 'mercury', 'nebula', 'panther', 'piter', 'rocket',
+  'romanov', 'spiderman', 'strange', 'tanas', 'thor', 'vision', 'wanda', 'yondu'
 ];
 
-shellDiv.style.opacity = 1;
-setTimeout(() => {logoDiv.style.opacity = 1;}, 1200);
-setTimeout(() => {logoDiv.style.opacity = 0;}, 4800);
-setTimeout(() => {logoDiv.remove();}, 6000);
+let avatarsNames = ['Человек-Муровей', 'Капитан Америка', 'Стрекоза', 'Дракс', 'Сокол', 'Ястребиный глаз', 'Гамора', 'Грут', 'Халк',
+  'Тони Старк', 'Локи', 'Мантис', 'Капитан Марвел', 'Альтрон', 'Ртуть', 'Небула', 'Черноя Пантера', 'Звездный лорд', 'Ракета',
+  'Наташа Романов', 'Человек-Паук', 'Доктор Стрендж', 'Танас', 'Тор', 'Вижен', 'Ванда', 'Йонду'
+];
 
-setTimeout(connectionShow, 3600, connectionIs);
+setTimeout(() => {
+  document.getElementById('logo').remove();
+  connectionShow(connectionIs);
+  connection();
+}, 6000);
 
 function connectionShow(status) {
   if (status) {
-    connectionDiv.style.zIndex = 0;
-    connectionDiv.style.opacity = 0;
-  } else {
-    connectionDiv.style.zIndex = 2;
-    connectionDiv.style.opacity = 1;
+    connectionDiv.style.display = 'none';
+    containerDiv.style.display = 'block';
+  }
+  else {
+    connectionDiv.style.display = 'block';
+    containerDiv.style.display = 'none';
   }
 }
 
-setTimeout(() => {
-  containerDiv.style.display = 'block';
-  containerDiv.style.opacity = 1;
-  avatarsArr.forEach(img => {
-    containerDiv.innerHTML += `<img src="${img}">`;
-  })
-}, 6000);
+function registration (usedAvatarsArr) {
+  let titleDiv = document.createElement("div");
+  titleDiv.id = 'avatarsTitle';
+  titleDiv.innerText = 'Выберете Аватарку';
+  containerDiv.append(titleDiv);
+
+  let avatarsDiv = document.createElement("div");
+  avatarsDiv.id = 'avatars';
+  containerDiv.append(avatarsDiv);
+
+  let nickNameInput = document.createElement("input");
+  nickNameInput.id = 'nickName';
+  containerDiv.append(nickNameInput);
+
+  let registrationButton = document.createElement("button");
+  registrationButton.id = 'registration';
+  registrationButton.innerHTML = 'Регистрация';
+  containerDiv.append(registrationButton);
+
+  fillAvatarsDiv(avatarsDiv, nickNameInput, usedAvatarsArr);
+
+}
+
+function fillAvatarsDiv(div, input, disableAvatars) {
+  div.innerHTML = '';
+
+  let avatarsImgArr = [];
+  let chosenAvatar;
+
+  avatarsArr.forEach((img, index) => {
+    let disable = ~disableAvatars.indexOf(img);
+    
+    let avatarImg = document.createElement('img');
+    avatarImg.src = avatarImgPath + img + avatarImgType;
+    if (disable) avatarImg.className = 'disable';
+    else avatarImg.onclick = function() {
+      if (chosenAvatar) chosenAvatar.classList.remove('choose');
+      chosenAvatar = this;
+      this.classList.add('choose');
+      input.value = avatarsNames[index];
+    };
+    avatarsImgArr.push(avatarImg);
+    div.append(avatarImg);
+  });
+}
