@@ -2,7 +2,7 @@
 
 // CONNECTION
 
-const socketURL = 'ws://localhost:9000' // 'wss://mars-chat-server.herokuapp.com' 
+const socketURL = 'wss://mars-chat-server.herokuapp.com' //'ws://localhost:9000' // 
 const connectionTimeout = 6000;
 
 let connectionIs = false;
