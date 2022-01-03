@@ -107,7 +107,7 @@ function getRegistrationResponse(data, socket) {
     messageListDiv.id = 'messages';
     containerDiv.append(messageListDiv);
 
-    let messageInput = document.createElement("input");
+    let messageInput = document.createElement("textarea");
     messageInput.id = 'messageInput';
     containerDiv.append(messageInput);
 
@@ -124,6 +124,13 @@ function getRegistrationResponse(data, socket) {
       }
     };
     containerDiv.append(sendButton);
+
+    console.log(messages);
+    messages.forEach(messageData => {
+      console.log(messageData);
+      getNewMessage(messageData);
+      console.log('--e--');
+    });
   }
 }
 
@@ -179,6 +186,8 @@ function getNewMessage(messageData) {
   }
 
   messageListDiv.append(messageDiv);
+  /* */
+  messageListDiv.scrollTop = messageListDiv.scrollHeight - messageListDiv.clientHeight;
 }
 
 function getWrongActionInResponse(action, data) {
@@ -199,7 +208,7 @@ let avatarsArr = ['antman', 'captan', 'dragonfly', 'draks', 'falcon', 'hawkeye',
 ];
 
 let avatarsNames = ['Человек-Муровей', 'Капитан Америка', 'Стрекоза', 'Дракс', 'Сокол', 'Ястребиный глаз', 'Гамора', 'Грут', 'Халк',
-  'Тони Старк', 'Локи', 'Мантис', 'Капитан Марвел', 'Альтрон', 'Ртуть', 'Небула', 'Черноя Пантера', 'Звездный лорд', 'Ракета',
+  'Тони Старк', 'Локи', 'Мантис', 'Капитан Марвел', 'Альтрон', 'Ртуть', 'Небула', 'Черная Пантера', 'Звездный лорд', 'Ракета',
   'Наташа Романов', 'Человек-Паук', 'Доктор Стрендж', 'Танас', 'Тор', 'Вижен', 'Ванда', 'Йонду'
 ];
 
@@ -237,6 +246,7 @@ function registration (usedAvatarsArr, socket) {
   containerDiv.append(avatarsDiv);
 
   let nickNameInput = document.createElement("input");
+  nickNameInput.type = 'text';
   nickNameInput.id = 'inputNickName';
   containerDiv.append(nickNameInput);
 
