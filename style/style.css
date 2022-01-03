@@ -195,7 +195,6 @@ body {
 /* CHAT */
 #messages {
     max-height: calc(100% - 160px);
-    text-align: center;
     overflow-y: auto;
 }
 #messages::-webkit-scrollbar {
@@ -213,30 +212,65 @@ body {
 #messages::-webkit-scrollbar-thumb:hover {
     background: #00c911; 
 }
+/* notification */
 #messages .notification {
-    
+    text-align: center;
+    margin-bottom: 50px;
 }
+#messages .notification img {
+    width: 50px;
+    margin-right: 10px;
+    box-sizing: border-box;
+    border: solid 2px #c7c7c7;
+    border-radius: 25px;
+    background-color: #000000;
+    vertical-align: middle;
+}
+#messages .notification .nick-name{
+    color: #00c911;
+}
+/* messages */
 #messages .message {
+    position: relative;
     width: 100%;
-    margin-bottom: 10px;
+    margin-bottom: 50px;
 }
 #messages .message .avatar{
-    width: 20%;
-    max-width: 120px;
-    margin: 4px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 80px;
     box-sizing: border-box;
     border: solid 2px #c7c7c7;
     border-radius: 50%;
     background-color: #000000;
 }
-#messages .message .nickname{
-    
+#messages .message .nick-name{
+    position: absolute;
+    left: 100px;
+    top: 0;
+    font-family: Roboto-Black;
+    font-size: 24px;
+    text-shadow: 0 5px 7px #000000;
+    color: #00c911;
 }
 #messages .message .message-text{
-    
+    position: relative;
+    top: 40px;
+    min-height: 70px;
+    margin: 0 10px 0 100px;
+    padding: 10px;
+    word-wrap: break-word;
+    background-color: #000000;
+    border-radius: 0 20px 20px 20px;
 }
 #messages .message .message-date{
-    
+    position: absolute;
+    left: 0;
+    top: 90px;
+    font-size: 10px;
+    text-shadow: 0 5px 7px #000000;
+    color: #c7c7c7;
 }
 
 #messageInput {

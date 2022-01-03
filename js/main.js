@@ -150,7 +150,7 @@ function getNewMessage(messageData) {
       default : messageSystemText = '--';
     }
     console.log(messageSystemText);
-    messageTxt.innerHTML = `<span class="nickName">${target.nickName}</span> ${messageSystemText}`;
+    messageTxt.innerHTML = `<span class="nick-name">${target.nickName}</span> ${messageSystemText}`;
     messageDiv.append(messageTxt);
 
   } else {
