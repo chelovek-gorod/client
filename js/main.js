@@ -2,7 +2,7 @@
 
 // CONNECTION
 
-const socketURL = 'wss://mars-chat-server.herokuapp.com' //'ws://localhost:9000' // 
+const socketURL = 'wss://mars-chat-server.herokuapp.com' // 'ws://localhost:9000' 
 const connectionTimeout = 6000;
 
 let connectionIs = false;
@@ -153,7 +153,7 @@ function getNewMessage(messageData) {
     let messageSystemText;
     switch(message) {
       case 'newConnect' : messageSystemText = 'теперь в чате'; break;
-      case 'disconnect' : messageSystemText = 'покинул чат'; break;
+      case 'disconnect' : messageSystemText = 'покинул(а) чат'; break;
       default : messageSystemText = '--';
     }
     console.log(messageSystemText);
@@ -179,7 +179,7 @@ function getNewMessage(messageData) {
     messageDiv.append(messageContent);
 
     let messageDate = document.createElement("div");
-    messageDate.innerText = date;
+    messageDate.innerHTML = getDateFromMilliSeconds(date);
     messageDate.className = 'message-date';
     messageDiv.append(messageDate);
 
@@ -202,14 +202,16 @@ const containerDiv = document.getElementById('container');
 let userNickName = '';
 let avatarImgPath = 'src/avatars/';
 let avatarImgType = '.png';
-let avatarsArr = ['antman', 'captan', 'dragonfly', 'draks', 'falcon', 'hawkeye', 'gamora', 'groot', 'halk',
-  'ironman', 'loki', 'mantis', 'marvel', 'mech', 'mercury', 'nebula', 'panther', 'piter', 'rocket',
-  'romanov', 'spiderman', 'strange', 'tanas', 'thor', 'vision', 'wanda', 'yondu'
+let avatarsArr = ['antman', 'captan', 'dragonfly', 'draks', 'falcon', 'hawkeye',
+  'gamora', 'groot', 'halk', 'ironman', 'loki', 'mantis', 'marvel', 'mech', 'mercury',
+  'nebula', 'panther', 'piter', 'rocket', 'romanov', 'spiderman', 'strange', 'tanas',
+  'thor', 'vision', 'wanda', 'yondu'
 ];
 
-let avatarsNames = ['Человек-Муровей', 'Капитан Америка', 'Стрекоза', 'Дракс', 'Сокол', 'Ястребиный глаз', 'Гамора', 'Грут', 'Халк',
-  'Тони Старк', 'Локи', 'Мантис', 'Капитан Марвел', 'Альтрон', 'Ртуть', 'Небула', 'Черная Пантера', 'Звездный лорд', 'Ракета',
-  'Наташа Романов', 'Человек-Паук', 'Доктор Стрендж', 'Танас', 'Тор', 'Вижен', 'Ванда', 'Йонду'
+let avatarsNames = ['Человек-Муравей', 'Капитан Америка', 'Стрекоза', 'Дракс', 'Сокол', 'Ястребиный глаз',
+  'Гамора', 'Грут', 'Халк', 'Тони Старк', 'Локи', 'Мантис', 'Капитан Марвел', 'Альтрон', 'Ртуть',
+  'Небула', 'Черная Пантера', 'Звездный лорд', 'Ракета', 'Наташа Романов', 'Человек-Паук', 'Доктор Стрендж', 'Танас',
+  'Тор', 'Вижен', 'Ванда', 'Йонду'
 ];
 
 setTimeout(() => {
@@ -238,7 +240,7 @@ function registration (usedAvatarsArr, socket) {
 
   let titleDiv = document.createElement("div");
   titleDiv.id = 'avatarsTitle';
-  titleDiv.innerText = 'Выберете Аватарку';
+  titleDiv.innerText = 'Выберите Аватарку';
   containerDiv.append(titleDiv);
 
   let avatarsDiv = document.createElement("div");
@@ -305,4 +307,24 @@ function showModalMessage(message) {
   modalShell.append(modalMessage);
 
   document.body.append(modalShell);
+}
+
+function getDateFromMilliSeconds(ms) {
+  let resultHTML;
+
+  let fullDate = new Date(ms);
+  let year = fullDate.getFullYear();
+  let month = fullDate.getMonth() + 1;
+  if (month < 10) month = '0' + month;
+  let date = fullDate.getDate();
+  resultHTML = [date, month, year].join(' - ');
+
+  let hours = fullDate.getHours();
+  let minutes = fullDate.getMinutes();
+  resultHTML += `<br><span class="time">${[hours, minutes].join(':')}</span>`;
+
+  let seconds = fullDate.getSeconds();
+  resultHTML += `<span class="seconds"> ${seconds}</span>`;
+
+  return resultHTML;
 }

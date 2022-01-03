@@ -267,11 +267,19 @@ body {
 }
 #messages .message .message-date{
     position: absolute;
+    width: 80px;
+    text-align: center;
     left: 0;
-    top: 90px;
+    top: 85px;
     font-size: 10px;
     text-shadow: 0 5px 7px #000000;
     color: #c7c7c7;
+}
+#messages .message .message-date .time{
+    font-size: 16px;
+}
+#messages .message .message-date .seconds{
+    font-size: 12px;
 }
 
 #messageInput {
