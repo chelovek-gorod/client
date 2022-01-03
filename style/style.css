@@ -120,7 +120,7 @@ body {
     text-shadow: 1px 3px 3px black;
 }
 #avatars {
-    max-height: calc(100% - 160px);
+    height: calc(100% - 160px);
     text-align: center;
     overflow-y: auto;
 
@@ -195,7 +195,7 @@ body {
 
 /* CHAT */
 #messages {
-    max-height: calc(100% - 220px);
+    height: calc(100% - 220px);
     overflow-y: auto;
 }
 #messages::-webkit-scrollbar {
