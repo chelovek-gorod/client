@@ -173,9 +173,9 @@ function getNewMessage(messageData) {
 
     let messageContent = document.createElement("div");
     // test sticker code
-    if (message[0] === '[' && message[2] === ']') {
-      let stickerCode = parseInt(message[1]);
-      if (stickerCode > -1 || stickerCode < 10) {
+    if (message[0] === '[' && message[3] === ']') {
+      let stickerCode = parseInt(message.substring(1, 3));
+      if (stickerCode > -1 || stickerCode < 20) {
         messageContent.innerHTML = `<img src="${stickersPath + stickersCollection[stickerCode] + stickersType}">`;
       } else messageContent.innerText = message;
     } else messageContent.innerText = message;
@@ -221,8 +221,9 @@ let avatarsNames = ['Человек-Муравей', 'Капитан Амери�
 
 let stickersPath = 'src/stickers/';
 let stickersType = '.png';
-let stickersCollection = ['are-you-sure', 'dont-understand', 'indeed', 'it-is-funny', 'really',
-  'this-is-serious', 'what-happened-is', 'what-is-it', 'wizard', 'wright-words'];
+let stickersCollection = ['are-you-sure', 'dont-understand', 'im-a-miracle', 'indeed', 'it-is-funny', 'not-interesting',
+  'oh-no', 'really', 'run-away', 'so-it-was', 'this-is-serious', 'time-to-run', 'unexpectedly', 'what-happened-is',
+  'what-is-it', 'who-is-brave', 'who-is-write-this', 'wizard', 'wright-words', 'your-last-words'];
 
 setTimeout(() => {
   document.getElementById('logo').remove();
