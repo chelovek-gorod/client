@@ -362,10 +362,12 @@ function getDateFromMilliSeconds(ms) {
 function testInputSticker(input) {
   console.log('testInputStickerэ', input.value);
   let inputText = input.value.trim();
-  if (inputText.length < 5 && inputText[0] === '[' && inputText[0] === ']') {
+  if (inputText.length < 6 && inputText[0] === '[' && inputText[0] === ']') {
     let stickerCode = parseInt(inputText.substring(1, 3));
     if (stickerCode > -1 || stickerCode < 20) {
-      showModalMessage(`<img src="${stickersPath + stickersCollection[stickerCode] + stickersType}">`);
+      console.log('sticker', stickersCollection[stickerCode]);
+      let outPopUpImg = `<img src="${stickersPath + stickersCollection[stickerCode] + stickersType}">`;
+      showModalMessage(outPopUpImg);
     }
   }
 }
