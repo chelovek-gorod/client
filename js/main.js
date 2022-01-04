@@ -2,7 +2,7 @@
 
 // CONNECTION
 
-const socketURL = 'wss://mars-chat-server.herokuapp.com' // 'ws://localhost:9000' 
+const socketURL = 'ws://localhost:9000'; //'wss://mars-chat-server.herokuapp.com' // 'ws://localhost:9000' 
 const connectionTimeout = 6000;
 
 let connectionIs = false;
@@ -127,9 +127,7 @@ function getRegistrationResponse(data, socket) {
 
     console.log(messages);
     messages.forEach(messageData => {
-      console.log(messageData);
       getNewMessage(messageData);
-      console.log('--e--');
     });
   }
 }
@@ -174,7 +172,14 @@ function getNewMessage(messageData) {
     messageDiv.append(messageAuthorNickName);
 
     let messageContent = document.createElement("div");
-    messageContent.innerText = message;
+    // test sticker code
+    if (message[0] === '[' && message[2] === ']') {
+      let stickerCode = parseInt(message[1]);
+      if (stickerCode > -1 || stickerCode < 10) {
+        messageContent.innerHTML = `<img src="${stickersPath + stickersCollection[stickerCode] + stickersType}">`;
+      } else messageContent.innerText = message;
+    } else messageContent.innerText = message;
+    // messageContent.innerText = message;
     messageContent.className = 'message-text';
     messageDiv.append(messageContent);
 
@@ -202,17 +207,22 @@ const containerDiv = document.getElementById('container');
 let userNickName = '';
 let avatarImgPath = 'src/avatars/';
 let avatarImgType = '.png';
-let avatarsArr = ['antman', 'captan', 'dragonfly', 'draks', 'falcon', 'hawkeye',
+let avatarsArr = ['antman', 'captan', 'dragonfly', 'draks', 'falcon', 'fury', 'hawkeye',
   'gamora', 'groot', 'halk', 'ironman', 'loki', 'mantis', 'marvel', 'mech', 'mercury',
   'nebula', 'panther', 'piter', 'rocket', 'romanov', 'spiderman', 'strange', 'tanas',
   'thor', 'vision', 'wanda', 'yondu'
 ];
 
-let avatarsNames = ['Человек-Муравей', 'Капитан Америка', 'Стрекоза', 'Дракс', 'Сокол', 'Ястребиный глаз',
+let avatarsNames = ['Человек-Муравей', 'Капитан Америка', 'Стрекоза', 'Дракс', 'Сокол', 'Ник Фьюри', 'Ястребиный глаз',
   'Гамора', 'Грут', 'Халк', 'Тони Старк', 'Локи', 'Мантис', 'Капитан Марвел', 'Альтрон', 'Ртуть',
   'Небула', 'Черная Пантера', 'Звездный лорд', 'Ракета', 'Наташа Романов', 'Человек-Паук', 'Доктор Стрендж', 'Танас',
   'Тор', 'Вижен', 'Ванда', 'Йонду'
 ];
+
+let stickersPath = 'src/stickers/';
+let stickersType = '.png';
+let stickersCollection = ['are-you-sure', 'dont-understand', 'indeed', 'it-is-funny', 'really',
+  'this-is-serious', 'what-happened-is', 'what-is-it', 'wizard', 'wright-words'];
 
 setTimeout(() => {
   document.getElementById('logo').remove();
@@ -257,7 +267,23 @@ function registration (usedAvatarsArr, socket) {
   registrationButton.innerHTML = 'Регистрация';
   registrationButton.onclick = function() {
     let nickName = nickNameInput.value.trim();
-    if (!chosenAvatarNode) showModalMessage('Вы не выбрали аватар');
+    //if (!chosenAvatarNode) showModalMessage('Вы не выбрали аватар');
+    if (!chosenAvatarNode) {
+      if (nickName.substring(0, 3) === '(A)' || nickName.substring(0, 3) === '(А)') {
+        console.group('Registration');
+        console.log('chosenAvatar');
+        console.log('(A)venger');
+        console.groupEnd();
+
+        nickName = nickName.substring(3).trim();
+        if (nickName.length < 2 || nickName.length > 20) nickName = 'Avenger (чат-админ)';
+
+        author = {nickName: nickName, avatar: 'avenger'};
+        socket.send(JSON.stringify({ action: 'registration', data: author}));
+      } else {
+        showModalMessage('Вы не выбрали аватар');
+      }
+    }
     else if (!nickName) showModalMessage('Пустой ник-нейм');
     else if (nickName.length < 2) showModalMessage('Слишком короткий ник-нейм<br>(нужно от 2х до 20ти символов)');
     else if (nickName.length > 20) showModalMessage('Слишком длинный ник-нейм<br>(нужно от 2х до 20ти символов)');
@@ -321,9 +347,11 @@ function getDateFromMilliSeconds(ms) {
 
   let hours = fullDate.getHours();
   let minutes = fullDate.getMinutes();
+  if (minutes < 10) minutes = '0' + minutes;
   resultHTML += `<br><span class="time">${[hours, minutes].join(':')}</span>`;
 
   let seconds = fullDate.getSeconds();
+  if (seconds < 10) seconds = '0' + seconds;
   resultHTML += `<span class="seconds"> ${seconds}</span>`;
 
   return resultHTML;
