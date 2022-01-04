@@ -358,6 +358,10 @@ body {
 }
 
 @media (max-width: 600px) {
+    #avatars::-webkit-scrollbar { width: 10px; }
+    #avatars::-webkit-scrollbar-track { box-shadow: inset 0 0 7px 3px #c7c7c7; border-radius: 5px; }
+    #avatars::-webkit-scrollbar-thumb { border-radius: 5px; box-shadow: inset 0 0 7px 3px #026e00; }
+
     #messages::-webkit-scrollbar { width: 10px; }
     #messages::-webkit-scrollbar-track { box-shadow: inset 0 0 7px 3px #c7c7c7; border-radius: 5px; }
     #messages::-webkit-scrollbar-thumb { border-radius: 5px; box-shadow: inset 0 0 7px 3px #026e00; }
@@ -368,7 +372,7 @@ body {
     #messages .message { margin-bottom: 30px; }
     #messages .message .avatar{ width: 50px; }
     #messages .message .nick-name{ left: 60px; font-size: 16px; }
-    #messages .message .message-text { top: 25px; min-height: 50px; margin: 0 10px 0 60px; padding: 5px; }
+    #messages .message .message-text { top: 25px; min-height: 50px; margin: 0 10px 0 60px; padding: 10px; }
     #messages .message .message-date{ width: 50px; top: 55px; font-size: 8px; text-shadow: 0 3px 5px #000000; }
     #messages .message .message-date .time{ font-size: 12px; }
     #messages .message .message-date .seconds{ font-size: 10px; }
