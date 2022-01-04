@@ -348,6 +348,10 @@ body {
     border-radius: 20px;
     background-color: #000000;
 }
+#modalShell div img {
+    width: 100%;
+    border-radius: 16px;
+}
 #modalShell div::after {
     content: "x";
     position: absolute;
