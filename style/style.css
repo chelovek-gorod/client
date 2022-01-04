@@ -342,6 +342,7 @@ body {
     min-width: 200px;
     max-width: 400px;
     height: auto;
+    margin: 0 20px;
     padding: 20px;
     text-align: center;
     border: solid 2px #ffffff;
