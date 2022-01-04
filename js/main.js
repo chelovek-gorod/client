@@ -110,12 +110,12 @@ function getRegistrationResponse(data, socket) {
     let messageInput = document.createElement("textarea");
     messageInput.id = 'messageInput';
     containerDiv.append(messageInput);
-    messageInput.onchange = function() { testInputSticker(this) };
+    messageInput.onchange = function() { testInputSticker(this); console.log('--onchange--'); };
 
     let sendButton = document.createElement("button");
     sendButton.id = 'sendButton';
     sendButton.innerHTML = 'Отправить';
-    sendButton.onclick = function() {
+    sendButton.onclick = function() { console.log('--onclick--');
       let messageText = messageInput.value.trim();
       if (!messageText) showModalMessage('Вы не ввели сообщение');
       else {
@@ -176,7 +176,7 @@ function getNewMessage(messageData) {
     // test sticker code
     if (message[0] === '[' && message[3] === ']') {
       let stickerCode = parseInt(message.substring(1, 3));
-      if (stickerCode > -1 || stickerCode < 20) {
+      if (stickerCode > -1 && stickerCode < 20) {
         messageContent.innerHTML = `<img src="${stickersPath + stickersCollection[stickerCode] + stickersType}">`;
       } else messageContent.innerText = message;
     } else messageContent.innerText = message;
@@ -363,7 +363,7 @@ function testInputSticker(input) {
   let inputText = input.value.trim();
   if (inputText.length < 5 && inputText[0] === '[' && inputText[3] === ']') {
     let stickerCode = parseInt(inputText.substring(1, 3));
-    if (stickerCode > -1 || stickerCode < 20) {
+    if (stickerCode > -1 && stickerCode < 20) {
       let outPopUpImg = `<img src="${stickersPath + stickersCollection[stickerCode] + stickersType}">`;
       showModalMessage(outPopUpImg);
     }
