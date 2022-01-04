@@ -110,6 +110,7 @@ function getRegistrationResponse(data, socket) {
     let messageInput = document.createElement("textarea");
     messageInput.id = 'messageInput';
     containerDiv.append(messageInput);
+    messageInput.onchange = function() { testInputSticker(this) };
 
     let sendButton = document.createElement("button");
     sendButton.id = 'sendButton';
@@ -356,4 +357,14 @@ function getDateFromMilliSeconds(ms) {
   resultHTML += `<span class="seconds"> ${seconds}</span>`;
 
   return resultHTML;
+}
+
+function testInputSticker(input) {
+  let inputText = input.value.trim();
+  if (inputText.length < 5 && inputText[0] === '[' && inputText[0] === ']') {
+    let stickerCode = parseInt(inputText.substring(1, 3));
+    if (stickerCode > -1 || stickerCode < 20) {
+      showModalMessage(`<img src="${stickersPath + stickersCollection[stickerCode] + stickersType}">`);
+    }
+  }
 }
