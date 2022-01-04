@@ -362,7 +362,7 @@ function getDateFromMilliSeconds(ms) {
 function testInputSticker(input) {
   console.log('testInputStickerэ', input.value);
   let inputText = input.value.trim();
-  if (inputText.length < 6 && inputText[0] === '[' && inputText[0] === ']') {
+  if (inputText.length < 5 && inputText[0] === '[' && inputText[3] === ']') {
     let stickerCode = parseInt(inputText.substring(1, 3));
     if (stickerCode > -1 || stickerCode < 20) {
       console.log('sticker', stickersCollection[stickerCode]);
